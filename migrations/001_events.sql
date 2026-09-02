@@ -1,0 +1,6 @@
+CREATE TABLE events (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    title TEXT NOT NULL,
+    starts_at TEXT NOT NULL,
+    capacity INTEGER NOT NULL
+);
