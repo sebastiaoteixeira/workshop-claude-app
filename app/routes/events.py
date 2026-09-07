@@ -3,6 +3,7 @@ from typing import Annotated
 
 from fastapi import APIRouter, Depends
 
+from app.auth import require_admin
 from app.db import get_connection
 from app.repositories import events
 from app.schemas import Event, EventIn
@@ -15,7 +16,7 @@ def list_events(conn: Annotated[sqlite3.Connection, Depends(get_connection)]) ->
     return events.list_events(conn)
 
 
-@router.post("", status_code=201)
+@router.post("", status_code=201, dependencies=[Depends(require_admin)])
 def create_event(
     conn: Annotated[sqlite3.Connection, Depends(get_connection)], data: EventIn
 ) -> Event:

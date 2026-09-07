@@ -1,10 +1,12 @@
 from collections.abc import AsyncIterator
 from contextlib import asynccontextmanager, closing
 
-from fastapi import FastAPI
+from fastapi import FastAPI, Request
+from fastapi.responses import JSONResponse
 
 from app import settings
 from app.db import connect, migrate
+from app.errors import UnauthorizedError
 from app.routes import events
 
 
@@ -17,3 +19,8 @@ async def lifespan(_: FastAPI) -> AsyncIterator[None]:
 
 app = FastAPI(title="NEI Events", lifespan=lifespan)
 app.include_router(events.router)
+
+
+@app.exception_handler(UnauthorizedError)
+def handle_unauthorized(_: Request, exc: UnauthorizedError) -> JSONResponse:
+    return JSONResponse(status_code=401, content={"detail": str(exc)})
