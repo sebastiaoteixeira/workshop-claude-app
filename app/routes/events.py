@@ -21,3 +21,8 @@ def create_event(
     conn: Annotated[sqlite3.Connection, Depends(get_connection)], data: EventIn
 ) -> Event:
     return events.create_event(conn, data)
+
+
+@router.get("/{event_id}")
+def get_event(conn: Annotated[sqlite3.Connection, Depends(get_connection)], event_id: int) -> Event:
+    return events.get_event(conn, event_id)
