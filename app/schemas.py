@@ -11,3 +11,12 @@ class EventIn(BaseModel):
 
 class Event(EventIn):
     id: int
+
+
+class ParticipantIn(BaseModel):
+    name: str
+    email: str
+
+
+class Participant(ParticipantIn):
+    id: int
