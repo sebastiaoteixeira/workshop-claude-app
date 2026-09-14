@@ -6,8 +6,8 @@ from fastapi.responses import JSONResponse
 
 from app import settings
 from app.db import connect, migrate
-from app.errors import NotFoundError, UnauthorizedError
-from app.routes import events
+from app.errors import ConflictError, NotFoundError, UnauthorizedError
+from app.routes import events, registrations
 
 
 @asynccontextmanager
@@ -19,6 +19,7 @@ async def lifespan(_: FastAPI) -> AsyncIterator[None]:
 
 app = FastAPI(title="NEI Events", lifespan=lifespan)
 app.include_router(events.router)
+app.include_router(registrations.router)
 
 
 @app.exception_handler(UnauthorizedError)
@@ -29,3 +30,8 @@ def handle_unauthorized(_: Request, exc: UnauthorizedError) -> JSONResponse:
 @app.exception_handler(NotFoundError)
 def handle_not_found(_: Request, exc: NotFoundError) -> JSONResponse:
     return JSONResponse(status_code=404, content={"detail": str(exc)})
+
+
+@app.exception_handler(ConflictError)
+def handle_conflict(_: Request, exc: ConflictError) -> JSONResponse:
+    return JSONResponse(status_code=409, content={"detail": str(exc)})

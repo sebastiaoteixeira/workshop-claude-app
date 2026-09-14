@@ -20,3 +20,9 @@ class ParticipantIn(BaseModel):
 
 class Participant(ParticipantIn):
     id: int
+
+
+class Registration(BaseModel):
+    event_id: int
+    participant: Participant
+    created_at: datetime
