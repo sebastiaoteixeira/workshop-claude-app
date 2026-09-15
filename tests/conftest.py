@@ -8,6 +8,8 @@ from app.db import connect, get_connection, migrate
 from app.main import app
 
 EVENT = {"title": "Hackathon NEI", "starts_at": "2026-11-20T18:00:00", "capacity": 2}
+ANA = {"name": "Ana Martins", "email": "ana.martins@ua.pt"}
+BRUNO = {"name": "Bruno Silva", "email": "bruno.silva@ua.pt"}
 
 
 @pytest.fixture
@@ -33,3 +35,11 @@ def create_event(client, admin_headers):
         return response.json()
 
     return create
+
+
+@pytest.fixture
+def register(client):
+    def register_in(event: dict, participant: dict):
+        return client.post(f"/events/{event['id']}/registrations", json=participant)
+
+    return register_in
