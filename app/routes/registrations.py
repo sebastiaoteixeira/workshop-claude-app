@@ -19,3 +19,11 @@ def register(
     event = events.get_event(conn, event_id)
     participant = participants.find_or_create(conn, data)
     return registrations.register(conn, event, participant)
+
+
+@router.get("")
+def list_registrations(
+    conn: Annotated[sqlite3.Connection, Depends(get_connection)], event_id: int
+) -> list[Registration]:
+    events.get_event(conn, event_id)
+    return registrations.list_for_event(conn, event_id)

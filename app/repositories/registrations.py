@@ -46,3 +46,10 @@ def register(conn: Connection, event: Event, participant: Participant) -> Regist
         (event.id, participant.id),
     ).fetchone()
     return _registration(row)
+
+
+def list_for_event(conn: Connection, event_id: int) -> list[Registration]:
+    rows = conn.execute(
+        f"{SELECT_REGISTRATIONS} WHERE r.event_id = ? ORDER BY r.created_at, p.id", (event_id,)
+    )
+    return [_registration(row) for row in rows]

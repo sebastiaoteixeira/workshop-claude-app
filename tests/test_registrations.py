@@ -24,3 +24,11 @@ def test_register_when_full_conflicts(create_event, register):
     event = create_event(capacity=1)
     register(event, ANA)
     assert register(event, BRUNO).status_code == 409
+
+
+def test_list_registrations(client, create_event, register):
+    event = create_event()
+    register(event, ANA)
+    register(event, BRUNO)
+    body = client.get(f"/events/{event['id']}/registrations").json()
+    assert [r["participant"]["email"] for r in body] == [ANA["email"], BRUNO["email"]]
