@@ -6,9 +6,15 @@ from app.schemas import Event, EventIn
 COLUMNS = "id, title, starts_at, capacity"
 
 
-def list_events(conn: Connection) -> list[Event]:
-    rows = conn.execute(f"SELECT {COLUMNS} FROM events ORDER BY id")
+def list_events(conn: Connection, offset: int, limit: int) -> list[Event]:
+    rows = conn.execute(
+        f"SELECT {COLUMNS} FROM events ORDER BY id LIMIT ? OFFSET ?", (limit, offset)
+    )
     return [Event(**row) for row in rows]
+
+
+def count_events(conn: Connection) -> int:
+    return conn.execute("SELECT count(*) FROM events").fetchone()[0]
 
 
 def get_event(conn: Connection, event_id: int) -> Event:

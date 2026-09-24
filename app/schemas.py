@@ -13,6 +13,14 @@ class Event(EventIn):
     id: int
 
 
+class Page[T](BaseModel):
+    items: list[T]
+    page: int
+    page_size: int
+    total: int
+    total_pages: int
+
+
 class ParticipantIn(BaseModel):
     name: str
     email: str

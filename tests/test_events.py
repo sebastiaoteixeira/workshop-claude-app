@@ -16,3 +16,8 @@ def test_get_event(client, create_event):
 
 def test_get_event_not_found(client):
     assert client.get("/events/999").status_code == 404
+
+
+def test_list_events_empty(client):
+    body = client.get("/events").json()
+    assert body == {"items": [], "page": 1, "page_size": 20, "total": 0, "total_pages": 0}
