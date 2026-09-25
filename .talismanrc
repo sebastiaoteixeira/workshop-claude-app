@@ -1,5 +1,5 @@
 threshold: medium
 fileignoreconfig:
 - filename: uv.lock
-  checksum: 3df49f00aa94df36bc1d363396dd74cd5ba09ea325b6dedaa795835b1fc0b585
+  checksum: 50e60b6c576c8f4854d6ab59606dc59799a3ed0fdf4ddbb0fd3ab02a5f465f35
 version: "1.0"

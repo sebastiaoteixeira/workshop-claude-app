@@ -2,6 +2,16 @@
 
 Todas as alterações relevantes da API de eventos ficam registadas aqui, uma secção por versão, da mais recente para a mais antiga.
 
+## [0.2.0] - 2026-09-25
+
+### Adicionado
+
+- Paginação em `GET /events` com `page` e `page_size` (b38ad69)
+
+### Corrigido
+
+- Chaves estrangeiras ativas em todas as ligações (bafd796)
+
 ## [0.1.0] - 2026-09-18
 
 ### Adicionado
