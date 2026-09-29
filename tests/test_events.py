@@ -9,6 +9,11 @@ def test_create_event(create_event):
     assert create_event() == {"id": 1, **EVENT}
 
 
+def test_create_event_rejects_zero_capacity(client, admin_headers):
+    response = client.post("/events", json={**EVENT, "capacity": 0}, headers=admin_headers)
+    assert response.status_code == 422
+
+
 def test_get_event(client, create_event):
     event = create_event()
     assert client.get(f"/events/{event['id']}").json() == event

@@ -1,12 +1,12 @@
 from datetime import datetime
 
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 
 
 class EventIn(BaseModel):
     title: str
     starts_at: datetime
-    capacity: int
+    capacity: int = Field(gt=0)
 
 
 class Event(EventIn):
