@@ -8,7 +8,7 @@ COLUMNS = "id, title, starts_at, capacity"
 
 def list_events(conn: Connection, offset: int, limit: int) -> list[Event]:
     rows = conn.execute(
-        f"SELECT {COLUMNS} FROM events ORDER BY id LIMIT ? OFFSET ?", (limit, offset)
+        f"SELECT {COLUMNS} FROM events ORDER BY starts_at, id LIMIT ? OFFSET ?", (limit, offset)
     )
     return [Event(**row) for row in rows]
 
