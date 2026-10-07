@@ -1,6 +1,9 @@
 import sqlite3
 from collections.abc import Iterator
 from pathlib import Path
+from typing import Annotated
+
+from fastapi import Depends
 
 from app import settings
 
@@ -30,3 +33,6 @@ def get_connection() -> Iterator[sqlite3.Connection]:
         yield conn
     finally:
         conn.close()
+
+
+Conn = Annotated[sqlite3.Connection, Depends(get_connection)]
