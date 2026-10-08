@@ -16,7 +16,7 @@ router = APIRouter(prefix="/events", tags=["events"])
 def list_events(
     conn: Conn,
     page: Annotated[int, Query(ge=1)] = 1,
-    page_size: Annotated[int, Query(ge=1)] = settings.DEFAULT_PAGE_SIZE,
+    page_size: Annotated[int, Query(ge=1, le=100)] = settings.DEFAULT_PAGE_SIZE,
 ) -> Page[Event]:
     total = events.count_events(conn)
     return Page(
