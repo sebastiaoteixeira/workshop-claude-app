@@ -1,4 +1,3 @@
-from math import ceil
 from typing import Annotated
 
 from fastapi import APIRouter, Depends, Query
@@ -18,14 +17,7 @@ def list_events(
     page: Annotated[int, Query(ge=1)] = 1,
     page_size: Annotated[int, Query(ge=1, le=100)] = settings.DEFAULT_PAGE_SIZE,
 ) -> Page[Event]:
-    total = events.count_events(conn)
-    return Page(
-        items=events.list_events(conn, offset=(page - 1) * page_size, limit=page_size),
-        page=page,
-        page_size=page_size,
-        total=total,
-        total_pages=ceil(total / page_size),
-    )
+    return events.list_events(conn, page, page_size)
 
 
 @router.post("", status_code=201, dependencies=[Depends(require_admin)])

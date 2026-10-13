@@ -1,20 +1,25 @@
+from math import ceil
 from sqlite3 import Connection
 
 from app.errors import NotFoundError
-from app.schemas import Event, EventIn
+from app.schemas import Event, EventIn, Page
 
 COLUMNS = "id, title, starts_at, capacity"
 
 
-def list_events(conn: Connection, offset: int, limit: int) -> list[Event]:
+def list_events(conn: Connection, page: int, page_size: int) -> Page[Event]:
+    total = conn.execute("SELECT count(*) FROM events").fetchone()[0]
     rows = conn.execute(
-        f"SELECT {COLUMNS} FROM events ORDER BY starts_at, id LIMIT ? OFFSET ?", (limit, offset)
+        f"SELECT {COLUMNS} FROM events ORDER BY starts_at, id LIMIT ? OFFSET ?",
+        (page_size, page * page_size),
     )
-    return [Event(**row) for row in rows]
-
-
-def count_events(conn: Connection) -> int:
-    return conn.execute("SELECT count(*) FROM events").fetchone()[0]
+    return Page(
+        items=[Event(**row) for row in rows],
+        page=page,
+        page_size=page_size,
+        total=total,
+        total_pages=ceil(total / page_size),
+    )
 
 
 def get_event(conn: Connection, event_id: int) -> Event:
