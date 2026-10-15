@@ -2,6 +2,23 @@
 
 Todas as alterações relevantes da API de eventos ficam registadas aqui, uma secção por versão, da mais recente para a mais antiga.
 
+## [0.3.0] - 2026-10-15
+
+### Adicionado
+
+- Validação de capacidade positiva na criação de eventos (81b16d5)
+- Limite de 100 para `page_size` (3847491)
+
+### Corrigido
+
+- Eventos ordenados pela data de início (12bbfec)
+
+### Alterado
+
+- Erros de domínio tratados por um único handler (047a134)
+- Dependência de ligação partilhada pelos routers (4cabc19)
+- Páginas construídas no repositório de eventos (8f8dd0b)
+
 ## [0.2.0] - 2026-09-25
 
 ### Adicionado
