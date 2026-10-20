@@ -26,3 +26,11 @@ def test_get_event_not_found(client):
 def test_list_events_empty(client):
     body = client.get("/events").json()
     assert body == {"items": [], "page": 1, "page_size": 20, "total": 0, "total_pages": 0}
+
+
+def test_list_events_second_page(client, create_event):
+    ids = [create_event(title=f"Talk {n}")["id"] for n in range(5)]
+    body = client.get("/events", params={"page": 2, "page_size": 2}).json()
+    assert [event["id"] for event in body["items"]] == ids[2:4]
+    assert body["page"] == 2
+    assert body["total_pages"] == 3
