@@ -32,3 +32,12 @@ def test_list_registrations(client, create_event, register):
     register(event, BRUNO)
     body = client.get(f"/events/{event['id']}/registrations").json()
     assert [r["participant"]["email"] for r in body] == [ANA["email"], BRUNO["email"]]
+
+
+def test_cancel_registration_frees_capacity(client, create_event, register):
+    event = create_event(capacity=1)
+    ana = register(event, ANA).json()["participant"]
+    assert register(event, BRUNO).status_code == 409
+    response = client.delete(f"/events/{event['id']}/registrations/{ana['id']}")
+    assert response.status_code == 204
+    assert register(event, BRUNO).status_code == 201
