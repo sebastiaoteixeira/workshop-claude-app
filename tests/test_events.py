@@ -1,4 +1,4 @@
-from tests.conftest import EVENT
+from tests.conftest import ANA, EVENT
 
 
 def test_create_event_requires_admin_token(client):
@@ -34,3 +34,10 @@ def test_list_events_second_page(client, create_event):
     assert [event["id"] for event in body["items"]] == ids[2:4]
     assert body["page"] == 2
     assert body["total_pages"] == 3
+
+
+def test_get_event_includes_available_seats(client, create_event, register):
+    event = create_event(capacity=3)
+    register(event, ANA)
+    body = client.get(f"/events/{event['id']}").json()
+    assert body["available_seats"] == 2
