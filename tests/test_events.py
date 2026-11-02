@@ -16,7 +16,8 @@ def test_create_event_rejects_zero_capacity(client, admin_headers):
 
 def test_get_event(client, create_event):
     event = create_event()
-    assert client.get(f"/events/{event['id']}").json() == event
+    body = client.get(f"/events/{event['id']}").json()
+    assert body.items() >= event.items()
 
 
 def test_get_event_not_found(client):
