@@ -18,3 +18,9 @@ def register(conn: Conn, event_id: int, data: ParticipantIn) -> Registration:
 def list_registrations(conn: Conn, event_id: int) -> list[Registration]:
     events.get_event(conn, event_id)
     return registrations.list_for_event(conn, event_id)
+
+
+@router.delete("/{participant_id}", status_code=204)
+def cancel(conn: Conn, event_id: int, participant_id: int) -> None:
+    events.get_event(conn, event_id)
+    registrations.cancel(conn, event_id, participant_id)

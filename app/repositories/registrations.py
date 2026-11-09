@@ -1,6 +1,6 @@
 from sqlite3 import Connection, Row
 
-from app.errors import ConflictError
+from app.errors import ConflictError, NotFoundError
 from app.schemas import Event, Participant, Registration
 
 SELECT_REGISTRATIONS = """
@@ -46,6 +46,16 @@ def register(conn: Connection, event: Event, participant: Participant) -> Regist
         (event.id, participant.id),
     ).fetchone()
     return _registration(row)
+
+
+def cancel(conn: Connection, event_id: int, participant_id: int) -> None:
+    with conn:
+        deleted = conn.execute(
+            "DELETE FROM registrations WHERE event_id = ? AND participant_id = ?",
+            (event_id, participant_id),
+        ).rowcount
+    if not deleted:
+        raise NotFoundError(f"participant {participant_id} is not registered in event {event_id}")
 
 
 def list_for_event(conn: Connection, event_id: int) -> list[Registration]:

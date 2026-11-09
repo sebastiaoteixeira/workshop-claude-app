@@ -13,6 +13,10 @@ class Event(EventIn):
     id: int
 
 
+class EventDetail(Event):
+    available_seats: int
+
+
 class Page[T](BaseModel):
     items: list[T]
     page: int
