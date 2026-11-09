@@ -11,7 +11,7 @@ def list_events(conn: Connection, page: int, page_size: int) -> Page[Event]:
     total = conn.execute("SELECT count(*) FROM events").fetchone()[0]
     rows = conn.execute(
         f"SELECT {COLUMNS} FROM events ORDER BY starts_at, id LIMIT ? OFFSET ?",
-        (page_size, page * page_size),
+        (page_size, (page - 1) * page_size),
     )
     return Page(
         items=[Event(**row) for row in rows],
