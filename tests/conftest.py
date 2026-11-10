@@ -10,6 +10,7 @@ from app.main import app
 EVENT = {"title": "Hackathon NEI", "starts_at": "2026-11-20T18:00:00", "capacity": 2}
 ANA = {"name": "Ana Martins", "email": "ana.martins@ua.pt"}
 BRUNO = {"name": "Bruno Silva", "email": "bruno.silva@ua.pt"}
+CARLA = {"name": "Carla Costa", "email": "carla.costa@ua.pt"}
 
 
 @pytest.fixture
@@ -43,3 +44,18 @@ def register(client):
         return client.post(f"/events/{event['id']}/registrations", json=participant)
 
     return register_in
+
+
+@pytest.fixture
+def join_waitlist(client):
+    def join(event: dict, participant: dict):
+        return client.post(f"/events/{event['id']}/waitlist", json=participant)
+
+    return join
+
+
+@pytest.fixture
+def full_event(create_event, register) -> dict:
+    event = create_event(capacity=1)
+    register(event, ANA)
+    return event
