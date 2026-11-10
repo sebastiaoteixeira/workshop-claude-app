@@ -38,3 +38,10 @@ class Registration(BaseModel):
     event_id: int
     participant: Participant
     created_at: datetime
+
+
+class WaitlistEntry(BaseModel):
+    event_id: int
+    position: int
+    participant: Participant
+    created_at: datetime

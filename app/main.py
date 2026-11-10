@@ -7,7 +7,7 @@ from fastapi.responses import JSONResponse
 from app import settings
 from app.db import connect, migrate
 from app.errors import ApiError
-from app.routes import events, registrations
+from app.routes import events, registrations, waitlist
 
 
 @asynccontextmanager
@@ -20,6 +20,7 @@ async def lifespan(_: FastAPI) -> AsyncIterator[None]:
 app = FastAPI(title="NEI Events", lifespan=lifespan)
 app.include_router(events.router)
 app.include_router(registrations.router)
+app.include_router(waitlist.router)
 
 
 @app.exception_handler(ApiError)
