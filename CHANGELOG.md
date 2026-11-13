@@ -2,6 +2,22 @@
 
 Todas as alterações relevantes da API de eventos ficam registadas aqui, uma secção por versão, da mais recente para a mais antiga.
 
+## [0.4.0] - 2026-11-13
+
+### Adicionado
+
+- Guia do projeto em `CLAUDE.md`, cancelamento de inscrições e lugares disponíveis no detalhe do evento (feaf8b3)
+- Lista de espera por evento, com promoção do primeiro da fila (1a20555)
+- Subagent de revisão de código só de leitura (c9c967f)
+
+### Corrigido
+
+- Deslocamento da paginação calculado a partir da página 1 (f5dcd69)
+
+### Alterado
+
+- Hooks de lint e de proteção de ficheiros nas edições do Claude Code (58ce512)
+
 ## [0.3.0] - 2026-10-15
 
 ### Adicionado
