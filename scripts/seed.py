@@ -22,10 +22,6 @@ FIRST_NAMES = (
 LAST_NAMES = "Martins Silva Costa Ferreira Oliveira Santos Pereira Sousa".split()
 
 KNOWN = [("Ana", "Martins"), ("Rui", "Costa")]
-IMPORTED_FROM_FORM = [
-    ("Ana Martins", "Ana.Martins@ua.pt"),
-    ("Rui Costa", "rui.costa@ua.pt "),
-]
 
 SEED = 2026
 FIRST_REGISTRATION = datetime(2026, 9, 21, 10, 0)
@@ -37,17 +33,14 @@ def participants() -> list[tuple[str, str]]:
         (first, last) for first in FIRST_NAMES for last in LAST_NAMES if (first, last) not in KNOWN
     ]
     chosen = KNOWN + rng.sample(pairs, 36)
-    people = [(f"{first} {last}", f"{first}.{last}@ua.pt".lower()) for first, last in chosen]
-    return people + IMPORTED_FROM_FORM
+    return [(f"{first} {last}", f"{first}.{last}@ua.pt".lower()) for first, last in chosen]
 
 
 def registrations(people_count: int) -> list[tuple[int, int, str]]:
     rng = Random(SEED)
     rows = []
     for event_id, (_, _, capacity) in enumerate(EVENTS, start=1):
-        taken = rng.sample(range(1, people_count - len(IMPORTED_FROM_FORM) + 1), min(capacity, 11))
-        if event_id == 4:
-            taken = list(range(1, capacity + 1)) + [people_count - 1, people_count]
+        taken = rng.sample(range(1, people_count + 1), min(capacity, 11))
         rows += [
             (event_id, pid, (FIRST_REGISTRATION + timedelta(hours=event_id, minutes=n)).isoformat())
             for n, pid in enumerate(taken)

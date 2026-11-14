@@ -11,13 +11,14 @@ def get(conn: Connection, participant_id: int) -> Participant:
 
 
 def find_or_create(conn: Connection, data: ParticipantIn) -> Participant:
+    email = data.email.strip().lower()
     row = conn.execute(
-        "SELECT id, name, email FROM participants WHERE email = ?", (data.email,)
+        "SELECT id, name, email FROM participants WHERE email = ?", (email,)
     ).fetchone()
     if row is not None:
         return Participant(**row)
     with conn:
         cursor = conn.execute(
-            "INSERT INTO participants (name, email) VALUES (?, ?)", (data.name, data.email)
+            "INSERT INTO participants (name, email) VALUES (?, ?)", (data.name, email)
         )
-    return Participant(id=cursor.lastrowid, **data.model_dump())
+    return Participant(id=cursor.lastrowid, name=data.name, email=email)

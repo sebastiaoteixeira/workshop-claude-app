@@ -41,3 +41,9 @@ def test_cancel_registration_frees_capacity(client, create_event, register):
     response = client.delete(f"/events/{event['id']}/registrations/{ana['id']}")
     assert response.status_code == 204
     assert register(event, BRUNO).status_code == 201
+
+
+def test_register_with_unnormalized_email_conflicts(create_event, register):
+    event = create_event()
+    register(event, ANA)
+    assert register(event, {**ANA, "email": " Ana.Martins@ua.pt "}).status_code == 409
