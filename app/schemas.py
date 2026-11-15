@@ -1,4 +1,5 @@
 from datetime import datetime
+from typing import Literal
 
 from pydantic import BaseModel, Field
 
@@ -45,3 +46,10 @@ class WaitlistEntry(BaseModel):
     position: int
     participant: Participant
     created_at: datetime
+
+
+class Health(BaseModel):
+    status: Literal["ok"] = "ok"
+    events: int
+    participants: int
+    registrations: int
