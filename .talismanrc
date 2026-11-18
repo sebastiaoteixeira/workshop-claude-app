@@ -2,4 +2,6 @@ threshold: medium
 fileignoreconfig:
 - filename: uv.lock
   checksum: 4b1d57783a7a1c7290b03388175fc79cf3ae29541b1797567c44bd62e0d7ad77
+- filename: tests/fixtures/aws_config.ini
+  checksum: 3d87303080b278b3bda9a9d95c8fa380b26fb138f8a237e62c52952ca9151cf2
 version: "1.0"
